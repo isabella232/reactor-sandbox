@@ -29,7 +29,7 @@ const editorRegistry = require('./helpers/editorRegistry');
 const bodyParser = require('body-parser');
 const saveContainer = require('./helpers/saveContainer');
 const unTransform = require('./helpers/unTransform');
-const sandboxIsLinked = require('../helpers/sandboxIsLinked');
+const isSandboxLinked = require('../helpers/isSandboxLinked');
 const executeSandboxComponents = require('../helpers/executeSandboxComponents');
 
 const PORT = 3000;
@@ -61,7 +61,7 @@ const configureApp = app => {
     .listen(SSL_PORT);
 
   // Serve the rule editor
-  app.use(express.static(path.resolve(__dirname + '/../../editor')));
+  app.use(express.static(path.resolve(__dirname + '/../../build')));
 
   app.get('/' + files.CONTAINER_FILENAME, function(req, res) {
     // Always pull the latest extension descriptor. The extension developer may have changed it
@@ -211,7 +211,7 @@ const configureApp = app => {
   });
 };
 
-if (sandboxIsLinked()) {
+if (isSandboxLinked()) {
   executeSandboxComponents();
 }
 

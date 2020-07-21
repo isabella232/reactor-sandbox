@@ -14,8 +14,13 @@ const execSync = require('child_process').execSync;
 const chalk = require('chalk');
 const path = require('path');
 const cwd = path.join(path.dirname(__filename), '../../');
+const isSandboxLinked = require('./isSandboxLinked');
 
 module.exports = () => {
+  if (isSandboxLinked() === false) {
+    return;
+  }
+
   try {
     execSync('npm run reactor-bridge-check', {
       cwd,
