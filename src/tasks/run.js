@@ -35,6 +35,11 @@ const executeSandboxComponents = require('../helpers/executeSandboxComponents');
 const PORT = 3000;
 const SSL_PORT = 4000;
 
+process.on('uncaughtException', (err) => {
+  console.log(err);
+  processs.exit(1);
+});
+
 const configureApp = app => {
   let validationError;
 

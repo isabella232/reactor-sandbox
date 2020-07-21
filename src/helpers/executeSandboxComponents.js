@@ -22,4 +22,9 @@ module.exports = () => {
   child.stdout.on('data', (data) => {
     console.log(data.toString());
   });
+
+  child.on('error', (err) => {
+    console.log('One of the sandbox components crashed: ' + err);
+    process.exit(1);
+  });
 };
