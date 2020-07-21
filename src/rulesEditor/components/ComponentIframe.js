@@ -40,7 +40,7 @@ class ComponentIframe extends Component {
       otherSettings,
       propertySettings,
       extensionConfiguration,
-      setCurrentIframe
+      setCurrentIframe,
     } = this.props;
 
     if (!url) {
@@ -51,7 +51,7 @@ class ComponentIframe extends Component {
       settings: settings && settings.toJS(),
       company: otherSettings.get('company').toJS(),
       propertySettings: propertySettings.toJS(),
-      tokens: otherSettings.get('tokens').toJS()
+      tokens: otherSettings.get('tokens').toJS(),
     };
 
     if (extensionConfiguration) {
@@ -60,8 +60,19 @@ class ComponentIframe extends Component {
         .toJS();
     }
 
+    const iframe = document.createElement('iframe');
+    this.iframe = iframe;
+
+    iframe.src = url;
+
+    iframe.setAttribute('data-private', true);
+    iframe.setAttribute(
+      'sandbox',
+      'allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts'
+    );
+
     const iframeApi = loadIframe({
-      url,
+      iframe,
       container: this.dom,
       extensionInitOptions,
       connectionTimeoutDuration: 30000,
@@ -70,7 +81,7 @@ class ComponentIframe extends Component {
           openCodeEditorModal({
             code: options.code,
             onSave: resolve,
-            onClose: reject
+            onClose: reject,
           });
         }).catch(() => {});
       },
@@ -79,20 +90,21 @@ class ComponentIframe extends Component {
         return new Promise((resolve, reject) => {
           openDataElementSelectorModal({
             onSave: resolve,
-            onClose: reject
+            onClose: reject,
           });
         }).catch(() => '');
       },
-      markAsDirty() {}
+      markAsDirty() {},
     });
 
+    this.dom.appendChild(iframe);
     setCurrentIframe(iframeApi);
   }
 
   render() {
     return (
       <div
-        ref={node => {
+        ref={(node) => {
           this.dom = node;
         }}
         className="component-iframe"
@@ -101,20 +113,18 @@ class ComponentIframe extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   propertySettings: state.propertySettings,
-  otherSettings: state.otherSettings
+  otherSettings: state.otherSettings,
 });
 const mapDispatch = ({
   currentIframe: { setCurrentIframe },
-  modals: { openCodeEditorModal, openDataElementSelectorModal }
+  modals: { openCodeEditorModal, openDataElementSelectorModal },
 }) => ({
-  setCurrentIframe: payload => setCurrentIframe(payload),
-  openCodeEditorModal: payload => openCodeEditorModal(payload),
-  openDataElementSelectorModal: payload => openDataElementSelectorModal(payload)
+  setCurrentIframe: (payload) => setCurrentIframe(payload),
+  openCodeEditorModal: (payload) => openCodeEditorModal(payload),
+  openDataElementSelectorModal: (payload) =>
+    openDataElementSelectorModal(payload),
 });
 
-export default connect(
-  mapState,
-  mapDispatch
-)(ComponentIframe);
+export default connect(mapState, mapDispatch)(ComponentIframe);

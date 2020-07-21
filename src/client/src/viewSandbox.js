@@ -330,9 +330,9 @@ const reportValidation = () => {
                 validateOutput.innerHTML = 'Valid';
               } else {
                 validateOutput.innerHTML =
-                  '<span class="error">' + 
-                  '  Settings object does not match schema.' + 
-                  '  Ensure result of getSettings() is correct.' + 
+                  '<span class="error">' +
+                  '  Settings object does not match schema.' +
+                  '  Ensure result of getSettings() is correct.' +
                   '</span>';
               }
             });

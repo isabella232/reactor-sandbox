@@ -24,8 +24,12 @@
   "main": "src/lib.js",
   "scripts": {
     "lint": "eslint 'src/**/*.js'",
-    "build": "rm -rf dist && cp -r src/client/public dist && NODE_ENV=production parcel build src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache && react-scripts build",
-    "start": "react-scripts start",
+    "build:viewsEditor": "rm -rf dist && cp -r src/client/public dist && NODE_ENV=production parcel build src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
+    "build:rulesEditor": "react-scripts build",
+    "build": "npm run build:viewsEditor && npm run build:rulesEditor",
+    "start:viewsEditor": "watch \"cp -v -r ./src/client/public/ dist\" ./src/client/public & parcel watch src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
+    "start:rulesEditor": "react-scripts start",
+    "start": "rm -rf dist && npm run start:viewsEditor && npm run start:rulesEditor",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -52,7 +56,6 @@
     "split.js": "^1.6.2"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
@@ -60,6 +63,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "parcel-bundler": "^1.12.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "watch": "^1.0.2"
   }
 }
