@@ -23,6 +23,9 @@
   ],
   "main": "src/lib.js",
   "scripts": {
+    "reactor-bridge-update": "echo HOLA && mkdir -p public/extensionbridge && cp node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js public/extensionbridge/extensionbridge-child.js",
+    "reactor-bridge-check": "cmp --silent public/extensionbridge/extensionbridge-child.js node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js || (echo 'Extension bridge needs to be updated. Please run `npm run reactor-bridge-update`.' && exit 1)",
+    "prepare": "npm run reactor-bridge-update",
     "lint": "eslint 'src/**/*.js'",
     "build:viewsEditor": "rm -rf dist && cp -r src/client/public dist && NODE_ENV=production parcel build src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
     "build:rulesEditor": "react-scripts build",
