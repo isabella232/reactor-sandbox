@@ -10,15 +10,24 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const init = require('./tasks/init');
-const run = require('./tasks/run');
-const validateSandboxVersion = require('./helpers/validateSandboxVersion');
-const validateExtensionBridge = require('./helpers/validateExtensionBridge');
+const execSync = require('child_process').execSync;
+const chalk = require('chalk');
+const path = require('path');
+const cwd = path.join(path.dirname(__filename), '../../');
 
-validateSandboxVersion();
-validateExtensionBridge();
-
-module.exports = {
-  init,
-  run
+module.exports = () => {
+  try {
+    execSync('npm run reactor-bridge-check', {
+      cwd,
+    })
+      .toString('utf8')
+      .replace(/\n$/, '');
+  } catch (e) {
+    console.log(
+      chalk.red(
+        `Extension bridge is out of date. \
+Please run "cd ${cwd} && npm run reactor-bridge-update && cd -".`
+      )
+    );
+  }
 };

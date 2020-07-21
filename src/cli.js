@@ -14,8 +14,10 @@ governing permissions and limitations under the License.
 
 const chalk = require('chalk');
 const validateSandboxVersion = require('./helpers/validateSandboxVersion');
+const validateExtensionBridge = require('./helpers/validateExtensionBridge');
 
 validateSandboxVersion();
+validateExtensionBridge();
 
 const task = process.argv.slice(2)[0];
 

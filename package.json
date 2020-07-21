@@ -23,17 +23,16 @@
   ],
   "main": "src/lib.js",
   "scripts": {
-    "reactor-bridge-update": "echo HOLA && mkdir -p public/extensionbridge && cp node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js public/extensionbridge/extensionbridge-child.js",
-    "reactor-bridge-check": "cmp --silent public/extensionbridge/extensionbridge-child.js node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js || (echo 'Extension bridge needs to be updated. Please run `npm run reactor-bridge-update`.' && exit 1)",
+    "reactor-bridge-update": "mkdir -p public/extensionbridge && cp node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js public/extensionbridge/extensionbridge-child.js",
+    "reactor-bridge-check": "cmp --silent public/extensionbridge/extensionbridge-child.js node_modules/@adobe/reactor-bridge/dist/extensionbridge-child.js || (echo 'Extension bridge is out of date. Please go to the sandbox folder and run `npm run reactor-bridge-update`.' && exit 1)",
     "prepare": "npm run reactor-bridge-update",
     "lint": "eslint 'src/**/*.js'",
-    "build:viewsEditor": "rm -rf dist && cp -r src/client/public dist && NODE_ENV=production parcel build src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
+    "build:viewsEditor": "rm -rf dist && npm run reactor-bridge-update && cp -r src/client/public dist && NODE_ENV=production parcel build src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
     "build:rulesEditor": "react-scripts build",
     "build": "npm run build:viewsEditor && npm run build:rulesEditor",
     "start:viewsEditor": "watch \"cp -v -r ./src/client/public/ dist\" ./src/client/public & parcel watch src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
     "start:rulesEditor": "react-scripts start",
-    "start": "rm -rf dist && npm run start:viewsEditor && npm run start:rulesEditor",
-    "eject": "react-scripts eject"
+    "start": "rm -rf dist && npm run reactor-bridge-update && npm run start:viewsEditor && npm run start:rulesEditor"
   },
   "dependencies": {
     "@adobe/reactor-bridge": "^11.0.0",

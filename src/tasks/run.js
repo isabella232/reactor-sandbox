@@ -29,6 +29,8 @@ const editorRegistry = require('./helpers/editorRegistry');
 const bodyParser = require('body-parser');
 const saveContainer = require('./helpers/saveContainer');
 const unTransform = require('./helpers/unTransform');
+const sandboxIsLinked = require('../helpers/sandboxIsLinked');
+const executeSandboxComponents = require('../helpers/executeSandboxComponents');
 
 const PORT = 3000;
 const SSL_PORT = 4000;
@@ -204,7 +206,11 @@ const configureApp = app => {
   });
 };
 
-module.exports = function() {
+if (sandboxIsLinked()) {
+  executeSandboxComponents();
+}
+
+module.exports = function () {
   return new Promise((resolve, reject) => {
     const app = express();
 
