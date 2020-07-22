@@ -3,10 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import List from './List';
 
-const ExtensionConfigurationsList = ({
-  extensionConfigurations,
-  deleteExtensionConfiguration
-}) => (
+const ExtensionConfigurationsList = ({ extensionConfigurations, deleteExtensionConfiguration }) => (
   <List
     items={extensionConfigurations}
     nameProperty="displayName"
@@ -16,19 +13,12 @@ const ExtensionConfigurationsList = ({
   />
 );
 
-const mapState = state => ({
+const mapState = (state) => ({
   extensionConfigurations: state.extensionConfigurations
 });
 
-const mapDispatch = ({
-  extensionConfigurations: { deleteExtensionConfiguration }
-}) => ({
-  deleteExtensionConfiguration: i => deleteExtensionConfiguration(i)
+const mapDispatch = ({ extensionConfigurations: { deleteExtensionConfiguration } }) => ({
+  deleteExtensionConfiguration: (i) => deleteExtensionConfiguration(i)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(ExtensionConfigurationsList)
-);
+export default withRouter(connect(mapState, mapDispatch)(ExtensionConfigurationsList));

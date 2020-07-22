@@ -42,7 +42,7 @@ class ExtensionConfigurationEdit extends Component {
     };
   }
 
-  handleNameChange = event => {
+  handleNameChange = (event) => {
     const { extensionConfiguration } = this.state;
 
     this.setState({
@@ -83,7 +83,7 @@ class ExtensionConfigurationEdit extends Component {
     });
 
     currentIframe.promise
-      .then(api => Promise.all([api.validate(), api.getSettings()]))
+      .then((api) => Promise.all([api.validate(), api.getSettings()]))
       .then(([isValid, settings]) => {
         if (isValid) {
           method({
@@ -108,13 +108,10 @@ class ExtensionConfigurationEdit extends Component {
   extensionConfigurationList() {
     const { registry } = this.props;
     return (registry.get('extensions') || List())
-      .filter(i => i.get('viewPath'))
+      .filter((i) => i.get('viewPath'))
       .valueSeq()
-      .map(v => (
-        <option
-          value={v.get('name')}
-          key={`extensionConfiguration${v.get('name')}`}
-        >
+      .map((v) => (
+        <option value={v.get('name')} key={`extensionConfiguration${v.get('name')}`}>
           {v.get('displayName')}
         </option>
       ));
@@ -134,11 +131,7 @@ class ExtensionConfigurationEdit extends Component {
 
   render() {
     const { registry } = this.props;
-    const {
-      errors,
-      extensionConfiguration,
-      waitingForExtensionResponse
-    } = this.state;
+    const { errors, extensionConfiguration, waitingForExtensionResponse } = this.state;
 
     const componentIframeDetails = registry.getIn([
       'extensions',
@@ -197,7 +190,7 @@ class ExtensionConfigurationEdit extends Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     extensionConfigurations: state.extensionConfigurations,
     currentIframe: state.currentIframe,
@@ -206,18 +199,10 @@ const mapState = state => {
 };
 
 const mapDispatch = ({
-  extensionConfigurations: {
-    saveExtensionConfiguration,
-    addExtensionConfiguration
-  }
+  extensionConfigurations: { saveExtensionConfiguration, addExtensionConfiguration }
 }) => ({
-  saveExtensionConfiguration: payload => saveExtensionConfiguration(payload),
-  addExtensionConfiguration: payload => addExtensionConfiguration(payload)
+  saveExtensionConfiguration: (payload) => saveExtensionConfiguration(payload),
+  addExtensionConfiguration: (payload) => addExtensionConfiguration(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(ExtensionConfigurationEdit)
-);
+export default withRouter(connect(mapState, mapDispatch)(ExtensionConfigurationEdit));

@@ -7,13 +7,7 @@ const handleOnClick = (type, match, history) => {
   history.push(`/rules/${match.params.rule_id}/${type}/new`);
 };
 
-const RuleComponentsList = ({
-  items,
-  type,
-  match,
-  history,
-  handleDeleteClick
-}) => (
+const RuleComponentsList = ({ items, type, match, history, handleDeleteClick }) => (
   <div>
     <div className="rule-components-list">
       {items.map((item, i) => (

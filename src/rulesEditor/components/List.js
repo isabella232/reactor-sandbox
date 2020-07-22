@@ -16,18 +16,11 @@ const List = ({ items, nameProperty, deleteFn, className, linkPrefix }) => (
           <tr key={item}>
             <td className="list-item-name">{item.get(nameProperty)}</td>
             <td className="list-item-actions">
-              <Link
-                to={`${linkPrefix}/${i}`}
-                className="pure-button-primary pure-button"
-              >
+              <Link to={`${linkPrefix}/${i}`} className="pure-button-primary pure-button">
                 Edit
               </Link>
               &nbsp;
-              <button
-                type="button"
-                onClick={deleteFn.bind(this, i)}
-                className="pure-button"
-              >
+              <button type="button" onClick={deleteFn.bind(this, i)} className="pure-button">
                 Delete
               </button>
             </td>
@@ -40,10 +33,7 @@ const List = ({ items, nameProperty, deleteFn, className, linkPrefix }) => (
         ) : null}
       </tbody>
     </table>
-    <Link
-      to={`${linkPrefix}/new`}
-      className="pure-button pure-button-primary create-new-button"
-    >
+    <Link to={`${linkPrefix}/new`} className="pure-button pure-button-primary create-new-button">
       Add
     </Link>
   </div>

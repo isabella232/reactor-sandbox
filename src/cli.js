@@ -12,6 +12,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+/* eslint-disable global-require */
+
 const chalk = require('chalk');
 const validateSandboxVersion = require('./helpers/validateSandboxVersion');
 const validateExtensionBridge = require('./helpers/validateExtensionBridge');
@@ -32,7 +34,8 @@ switch (task) {
     break;
 }
 
-execute().catch(error => {
+execute().catch((error) => {
+  // eslint-disable-next-line no-console
   console.error(chalk.red(error));
   process.exit(1);
 });

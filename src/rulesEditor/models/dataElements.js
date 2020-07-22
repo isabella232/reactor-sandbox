@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import localStorage from '../models/localStorage';
+import localStorage from './localStorage';
 
 export default {
   state: List(), // initial state
@@ -19,10 +19,7 @@ export default {
       return dataElements;
     },
     saveDataElement(state, payload) {
-      const dataElements = state.update(
-        payload.id,
-        item => payload.dataElement
-      );
+      const dataElements = state.update(payload.id, () => payload.dataElement);
       localStorage.update('dataElements', dataElements);
       return dataElements;
     },

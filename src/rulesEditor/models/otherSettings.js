@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import localStorage from '../models/localStorage';
+import localStorage from './localStorage';
 
 export default {
   state: Map(), // initial state

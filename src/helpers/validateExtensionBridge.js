@@ -10,9 +10,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const execSync = require('child_process').execSync;
+const { execSync } = require('child_process');
 const chalk = require('chalk');
 const path = require('path');
+
 const cwd = path.join(path.dirname(__filename), '../../');
 const isSandboxLinked = require('./isSandboxLinked');
 
@@ -23,11 +24,12 @@ module.exports = () => {
 
   try {
     execSync('npm run reactor-bridge-check', {
-      cwd,
+      cwd
     })
       .toString('utf8')
       .replace(/\n$/, '');
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(
       chalk.red(
         `Extension bridge is out of date. \

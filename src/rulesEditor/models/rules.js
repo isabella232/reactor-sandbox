@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import localStorage from '../models/localStorage';
+import localStorage from './localStorage';
 
 export default {
   state: List(), // initial state
@@ -14,9 +14,7 @@ export default {
       return rules;
     },
     saveRule(state, payload) {
-      const rules = state.update(payload.id, item =>
-        payload.rule.set('id', `RL${Date.now()}`)
-      );
+      const rules = state.update(payload.id, () => payload.rule.set('id', `RL${Date.now()}`));
       localStorage.update('rules', rules);
       return rules;
     },

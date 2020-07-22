@@ -21,15 +21,16 @@ export default {
     }
   },
   update(key, value) {
+    let newValue;
     if (key === 'extensions' || key === 'dataElements') {
-      value = value.reduce(
+      newValue = value.reduce(
         (result, item) => result.set(item.get('name'), item.delete('name')),
         Map()
       );
     } else {
-      value = value.toJS();
+      newValue = value.toJS();
     }
-    this.state = this.state.set(key, value);
+    this.state = this.state.set(key, newValue);
 
     if (this.extensionName) {
       localStorage.setItem(

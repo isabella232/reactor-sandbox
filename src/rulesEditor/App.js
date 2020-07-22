@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter as Router, Switch } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
@@ -18,53 +18,41 @@ import ExtensionConfigurationEdit from './components/ExtensionConfigurationEdit'
 
 dispatch({ type: 'brain/initialize' });
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <LastLocationProvider>
-            <Switch>
-              <PreloaderRoute exact path="/" component={Main} />
-              <PreloaderRoute exact path="/settings" component={Settings} />
-              <PreloaderRoute
-                exact
-                path="/property_settings"
-                component={PropertySettings}
-              />
-              <PreloaderRoute exact path="/rules" component={RulesList} />
-              <PreloaderRoute exact path="/rules/:rule_id" component={RuleEdit} />
-              <PreloaderRoute
-                exact
-                path="/rules/:rule_id/:type(events|conditions|actions)/:component_id"
-                component={RuleComponentEdit}
-              />
-              <PreloaderRoute
-                exact
-                path="/data_elements"
-                component={DataElementsList}
-              />
-              <PreloaderRoute
-                exact
-                path="/data_elements/:data_element_id"
-                component={DataElementEdit}
-              />
-              <PreloaderRoute
-                exact
-                path="/extension_configurations"
-                component={ExtensionConfigurationsList}
-              />
-              <PreloaderRoute
-                exact
-                path="/extension_configurations/:extension_configuration_id"
-                component={ExtensionConfigurationEdit}
-              />
-            </Switch>
-          </LastLocationProvider>
-        </Router>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Router>
+      <LastLocationProvider>
+        <Switch>
+          <PreloaderRoute exact path="/" component={Main} />
+          <PreloaderRoute exact path="/settings" component={Settings} />
+          <PreloaderRoute exact path="/property_settings" component={PropertySettings} />
+          <PreloaderRoute exact path="/rules" component={RulesList} />
+          <PreloaderRoute exact path="/rules/:rule_id" component={RuleEdit} />
+          <PreloaderRoute
+            exact
+            path="/rules/:rule_id/:type(events|conditions|actions)/:component_id"
+            component={RuleComponentEdit}
+          />
+          <PreloaderRoute exact path="/data_elements" component={DataElementsList} />
+          <PreloaderRoute
+            exact
+            path="/data_elements/:data_element_id"
+            component={DataElementEdit}
+          />
+          <PreloaderRoute
+            exact
+            path="/extension_configurations"
+            component={ExtensionConfigurationsList}
+          />
+          <PreloaderRoute
+            exact
+            path="/extension_configurations/:extension_configuration_id"
+            component={ExtensionConfigurationEdit}
+          />
+        </Switch>
+      </LastLocationProvider>
+    </Router>
+  </Provider>
+);
 
 export default App;

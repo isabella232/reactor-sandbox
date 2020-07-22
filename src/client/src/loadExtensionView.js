@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {loadIframe, ERROR_CODES} from '@adobe/reactor-bridge';
+import { loadIframe, ERROR_CODES } from '@adobe/reactor-bridge';
 import defaultOpenCodeEditor from './openCodeEditor';
 import defaultOpenRegexTester from './openRegexTester';
 import defaultOpenDataElementSelector from './openDataElementSelector';
@@ -29,9 +29,9 @@ module.exports = ({
     bridge.destroy();
   }
 
-  iframe.src = viewPath ?
-    `extensionViews/${extensionDescriptor.name}/${extensionDescriptor.version}/${viewPath}` :
-    'noConfigIframe.html';
+  iframe.src = viewPath
+    ? `extensionViews/${extensionDescriptor.name}/${extensionDescriptor.version}/${viewPath}`
+    : 'noConfigIframe.html';
 
   bridge = loadIframe({
     iframe,
@@ -41,7 +41,7 @@ module.exports = ({
     openDataElementSelector
   });
 
-  return bridge.promise.catch(error => {
+  return bridge.promise.catch((error) => {
     // We can safely ignore connections that were destroyed before completing.
     if (error !== ERROR_CODES.DESTROYED) {
       throw error;

@@ -1,7 +1,7 @@
 import React from 'react';
-import List from './List';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import List from './List';
 
 const RulesList = ({ rules, deleteRule }) => (
   <List
@@ -13,12 +13,12 @@ const RulesList = ({ rules, deleteRule }) => (
   />
 );
 
-const mapState = state => ({
+const mapState = (state) => ({
   rules: state.rules
 });
 
 const mapDispatch = ({ rules: { deleteRule } }) => ({
-  deleteRule: i => deleteRule(i)
+  deleteRule: (i) => deleteRule(i)
 });
 
 export default withRouter(connect(mapState, mapDispatch)(RulesList));

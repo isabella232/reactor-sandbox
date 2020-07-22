@@ -7,8 +7,7 @@ import ComponentIframe from './ComponentIframe';
 import Backdrop from './Backdrop';
 
 const isNewComponent = (componentId, type, currentRule) =>
-  componentId === 'new' ||
-  componentId >= (currentRule.get(type) || List()).size;
+  componentId === 'new' || componentId >= (currentRule.get(type) || List()).size;
 
 const getCurrentRule = (currentRule, rules, ruleId) => {
   let rule;
@@ -43,11 +42,7 @@ class RuleComponentEdit extends Component {
   constructor(props) {
     super(props);
 
-    const currentRule = getCurrentRule(
-      props.currentRule,
-      props.rules,
-      props.match.params.rule_id
-    );
+    const currentRule = getCurrentRule(props.currentRule, props.rules, props.match.params.rule_id);
 
     this.state = {
       errors: {},
@@ -59,7 +54,7 @@ class RuleComponentEdit extends Component {
     props.setCurrentRule(currentRule);
   }
 
-  handleComponentTypeChange = event => {
+  handleComponentTypeChange = (event) => {
     const { component } = this.state;
 
     this.setState({
@@ -70,7 +65,7 @@ class RuleComponentEdit extends Component {
     });
   };
 
-  handleOrderChange = event => {
+  handleOrderChange = (event) => {
     const { component } = this.state;
     const {
       target: { value }
@@ -99,16 +94,14 @@ class RuleComponentEdit extends Component {
 
     const { currentRule } = this.state;
 
-    const method = isNewComponent(componentId, type, currentRule)
-      ? addComponent
-      : saveComponent;
+    const method = isNewComponent(componentId, type, currentRule) ? addComponent : saveComponent;
 
     this.setState({
       waitingForExtensionResponse: true
     });
 
     currentIframe.promise
-      .then(api => Promise.all([api.validate(), api.getSettings()]))
+      .then((api) => Promise.all([api.validate(), api.getSettings()]))
       .then(([isValid, settings]) => {
         if (isValid) {
           method({
@@ -138,7 +131,7 @@ class RuleComponentEdit extends Component {
     const componentList = {};
     const groupList = [];
 
-    (registry.getIn(['components', type]) || List()).valueSeq().forEach(v => {
+    (registry.getIn(['components', type]) || List()).valueSeq().forEach((v) => {
       if (!componentList[v.get('extensionDisplayName')]) {
         componentList[v.get('extensionDisplayName')] = [];
       }
@@ -152,12 +145,9 @@ class RuleComponentEdit extends Component {
       );
     });
 
-    Object.keys(componentList).forEach(extenisonDisplayName => {
+    Object.keys(componentList).forEach((extenisonDisplayName) => {
       groupList.push(
-        <optgroup
-          key={`optGroupExtension${extenisonDisplayName}`}
-          label={extenisonDisplayName}
-        >
+        <optgroup key={`optGroupExtension${extenisonDisplayName}`} label={extenisonDisplayName}>
           {componentList[extenisonDisplayName]}
         </optgroup>
       );
@@ -261,7 +251,7 @@ class RuleComponentEdit extends Component {
           <ComponentIframe
             component={componentIframeDetails}
             extensionConfiguration={extensionConfigurations
-              .filter(i => i.get('name') === extensionName)
+              .filter((i) => i.get('name') === extensionName)
               .first()}
             settings={component.get('settings')}
             server={registry.getIn(['environment', 'server'])}
@@ -272,7 +262,7 @@ class RuleComponentEdit extends Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     rules: state.rules,
     currentRule: state.currentRule,
@@ -286,15 +276,10 @@ const mapDispatch = ({
   rules: { saveRule },
   currentRule: { setCurrentRule, saveComponent, addComponent }
 }) => ({
-  saveRule: payload => saveRule(payload),
-  setCurrentRule: payload => setCurrentRule(payload),
-  saveComponent: payload => saveComponent(payload),
-  addComponent: payload => addComponent(payload)
+  saveRule: (payload) => saveRule(payload),
+  setCurrentRule: (payload) => setCurrentRule(payload),
+  saveComponent: (payload) => saveComponent(payload),
+  addComponent: (payload) => addComponent(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(RuleComponentEdit)
-);
+export default withRouter(connect(mapState, mapDispatch)(RuleComponentEdit));

@@ -3,14 +3,10 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import './Menu.css';
 
-const isSavedEnabled = match =>
-  [
-    '/',
-    '/extension_configurations',
-    '/data_elements',
-    '/rules',
-    '/property_settings'
-  ].indexOf(match.path) !== -1;
+const isSavedEnabled = (match) =>
+  ['/', '/extension_configurations', '/data_elements', '/rules', '/property_settings'].indexOf(
+    match.path
+  ) !== -1;
 
 const Menu = ({ match, save }) => (
   <div className="main-menu">
@@ -33,9 +29,7 @@ const Menu = ({ match, save }) => (
         <li className="pure-menu-item">
           <Link
             to="/data_elements"
-            className={`pure-menu-link ${
-              match.path === '/data_elements' ? 'menu-selected' : ''
-            }`}
+            className={`pure-menu-link ${match.path === '/data_elements' ? 'menu-selected' : ''}`}
           >
             Data Elements
           </Link>
@@ -43,9 +37,7 @@ const Menu = ({ match, save }) => (
         <li className="pure-menu-item">
           <Link
             to="/rules"
-            className={`pure-menu-link ${
-              match.path.includes('/rules') ? 'menu-selected' : ''
-            }`}
+            className={`pure-menu-link ${match.path.includes('/rules') ? 'menu-selected' : ''}`}
           >
             Rules
           </Link>
@@ -63,9 +55,7 @@ const Menu = ({ match, save }) => (
         <li className="pure-menu-item">
           <Link
             to="/settings"
-            className={`pure-menu-link ${
-              match.path === '/settings' ? 'menu-selected' : ''
-            }`}
+            className={`pure-menu-link ${match.path === '/settings' ? 'menu-selected' : ''}`}
           >
             Settings
           </Link>
@@ -87,9 +77,4 @@ const mapDispatch = ({ brain: { save } }) => ({
   save: () => save()
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(Menu)
-);
+export default withRouter(connect(mapState, mapDispatch)(Menu));

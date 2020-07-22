@@ -12,19 +12,22 @@ governing permissions and limitations under the License.
 
 const childProcess = require('child_process');
 const path = require('path');
+
 const cwd = path.join(path.dirname(__filename), '../../');
 
 module.exports = () => {
-  var child = childProcess.spawn('npm', ['start'], {
-    cwd,
+  const child = childProcess.spawn('npm', ['start'], {
+    cwd
   });
 
   child.stdout.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.log(data.toString());
   });
 
   child.on('error', (err) => {
-    console.log('One of the sandbox components crashed: ' + err);
+    // eslint-disable-next-line no-console
+    console.log(`One of the sandbox components crashed: ${err}`);
     process.exit(1);
   });
 };

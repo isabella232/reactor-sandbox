@@ -42,7 +42,7 @@ class ModalCodeEditor extends Component {
     closeCodeEditorModal();
   };
 
-  handleCodeChange = event => {
+  handleCodeChange = (event) => {
     const { codeEditorModal } = this.state;
 
     this.setState({
@@ -62,10 +62,7 @@ class ModalCodeEditor extends Component {
           onClose={this.handleOnClose}
         >
           <div className="pure-form">
-            <textarea
-              value={codeEditorModal.get('code')}
-              onChange={this.handleCodeChange}
-            />
+            <textarea value={codeEditorModal.get('code')} onChange={this.handleCodeChange} />
           </div>
         </Modal>
       </div>
@@ -73,17 +70,12 @@ class ModalCodeEditor extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   modals: state.modals
 });
 
 const mapDispatch = ({ modals: { closeCodeEditorModal } }) => ({
-  closeCodeEditorModal: payload => closeCodeEditorModal(payload)
+  closeCodeEditorModal: (payload) => closeCodeEditorModal(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(ModalCodeEditor)
-);
+export default withRouter(connect(mapState, mapDispatch)(ModalCodeEditor));

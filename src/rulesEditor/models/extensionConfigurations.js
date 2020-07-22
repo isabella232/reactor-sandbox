@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import localStorage from '../models/localStorage';
+import localStorage from './localStorage';
 
 export default {
   state: List(), // initial state
@@ -14,16 +14,14 @@ export default {
       return extensionConfigurations;
     },
     addExtensionConfiguration(state, payload) {
-      const extensionConfigurations = state.push(
-        payload.extensionConfiguration
-      );
+      const extensionConfigurations = state.push(payload.extensionConfiguration);
       localStorage.update('extensions', extensionConfigurations);
       return extensionConfigurations;
     },
     saveExtensionConfiguration(state, payload) {
       const extensionConfigurations = state.update(
         payload.id,
-        item => payload.extensionConfiguration
+        () => payload.extensionConfiguration
       );
       localStorage.update('extensions', extensionConfigurations);
       return extensionConfigurations;

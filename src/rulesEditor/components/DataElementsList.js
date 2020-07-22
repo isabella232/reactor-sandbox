@@ -13,17 +13,12 @@ const DataElementsList = ({ dataElements, deleteDataElement }) => (
   />
 );
 
-const mapState = state => ({
+const mapState = (state) => ({
   dataElements: state.dataElements
 });
 
 const mapDispatch = ({ dataElements: { deleteDataElement } }) => ({
-  deleteDataElement: i => deleteDataElement(i)
+  deleteDataElement: (i) => deleteDataElement(i)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(DataElementsList)
-);
+export default withRouter(connect(mapState, mapDispatch)(DataElementsList));

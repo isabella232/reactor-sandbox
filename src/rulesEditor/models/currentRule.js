@@ -7,13 +7,10 @@ export default {
       return payload;
     },
     saveComponent(state, payload) {
-      return state.updateIn(
-        [payload.type, payload.id],
-        item => payload.component
-      );
+      return state.updateIn([payload.type, payload.id], () => payload.component);
     },
     addComponent(state, payload) {
-      return state.update(payload.type, item =>
+      return state.update(payload.type, () =>
         (state.get(payload.type) || List()).push(payload.component)
       );
     }

@@ -12,9 +12,7 @@ const isNewComponent = ({
   },
   dataElements
 }) => {
-  return (
-    dataElementId === 'new' || dataElementId >= (dataElements || List()).size
-  );
+  return dataElementId === 'new' || dataElementId >= (dataElements || List()).size;
 };
 
 const getDataElement = ({
@@ -85,16 +83,14 @@ class DataElementEdit extends Component {
 
     const { dataElement } = this.state;
 
-    const method = isNewComponent(this.props)
-      ? addDataElement
-      : saveDataElement;
+    const method = isNewComponent(this.props) ? addDataElement : saveDataElement;
 
     this.setState({
       waitingForExtensionResponse: true
     });
 
     currentIframe.promise
-      .then(api => Promise.all([api.validate(), api.getSettings()]))
+      .then((api) => Promise.all([api.validate(), api.getSettings()]))
       .then(([isValid, settings]) => {
         if (isValid) {
           method({
@@ -118,28 +114,23 @@ class DataElementEdit extends Component {
     const groupList = [];
     const { registry } = this.props;
 
-    (registry.getIn(['components', 'dataElements']) || List())
-      .valueSeq()
-      .forEach(v => {
-        if (!componentList[v.get('extensionDisplayName')]) {
-          componentList[v.get('extensionDisplayName')] = [];
-        }
-        componentList[v.get('extensionDisplayName')].push(
-          <option
-            value={`${v.get('extensionName')}/${v.get('libPath')}`}
-            key={`optionType${v.get('libPath')}`}
-          >
-            {v.get('displayName')}
-          </option>
-        );
-      });
-
-    Object.keys(componentList).forEach(extenisonDisplayName => {
-      groupList.push(
-        <optgroup
-          key={`optGroupExtension${extenisonDisplayName}`}
-          label={extenisonDisplayName}
+    (registry.getIn(['components', 'dataElements']) || List()).valueSeq().forEach((v) => {
+      if (!componentList[v.get('extensionDisplayName')]) {
+        componentList[v.get('extensionDisplayName')] = [];
+      }
+      componentList[v.get('extensionDisplayName')].push(
+        <option
+          value={`${v.get('extensionName')}/${v.get('libPath')}`}
+          key={`optionType${v.get('libPath')}`}
         >
+          {v.get('displayName')}
+        </option>
+      );
+    });
+
+    Object.keys(componentList).forEach((extenisonDisplayName) => {
+      groupList.push(
+        <optgroup key={`optGroupExtension${extenisonDisplayName}`} label={extenisonDisplayName}>
           {componentList[extenisonDisplayName]}
         </optgroup>
       );
@@ -230,10 +221,7 @@ class DataElementEdit extends Component {
                     id="forceLowerCase"
                     type="checkbox"
                     checked={dataElement.get('forceLowerCase') || ''}
-                    onChange={this.handleInputChange.bind(
-                      this,
-                      'forceLowerCase'
-                    )}
+                    onChange={this.handleInputChange.bind(this, 'forceLowerCase')}
                   />{' '}
                   Force lower case
                 </label>
@@ -253,10 +241,7 @@ class DataElementEdit extends Component {
                   <select
                     id="storageDuration"
                     value={dataElement.get('storageDuration') || ''}
-                    onChange={this.handleInputChange.bind(
-                      this,
-                      'storageDuration'
-                    )}
+                    onChange={this.handleInputChange.bind(this, 'storageDuration')}
                   >
                     <option value=""> None </option>
                     <option value="pageview"> Pageview </option>
@@ -286,7 +271,7 @@ class DataElementEdit extends Component {
           <ComponentIframe
             component={componentIframeDetails}
             extensionConfiguration={extensionConfigurations
-              .filter(i => i.get('name') === extensionName)
+              .filter((i) => i.get('name') === extensionName)
               .first()}
             settings={dataElement.get('settings')}
             server={registry.getIn(['environment', 'server'])}
@@ -297,7 +282,7 @@ class DataElementEdit extends Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     dataElements: state.dataElements,
     currentIframe: state.currentIframe,
@@ -306,16 +291,9 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = ({
-  dataElements: { saveDataElement, addDataElement }
-}) => ({
-  saveDataElement: payload => saveDataElement(payload),
-  addDataElement: payload => addDataElement(payload)
+const mapDispatch = ({ dataElements: { saveDataElement, addDataElement } }) => ({
+  saveDataElement: (payload) => saveDataElement(payload),
+  addDataElement: (payload) => addDataElement(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(DataElementEdit)
-);
+export default withRouter(connect(mapState, mapDispatch)(DataElementEdit));

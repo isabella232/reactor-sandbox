@@ -16,7 +16,7 @@ export default {
       );
     },
 
-    closeCodeEditorModal(state, payload) {
+    closeCodeEditorModal(state) {
       return state.delete('codeEditorModal');
     },
 
@@ -32,7 +32,7 @@ export default {
       );
     },
 
-    closeDataElementSelectorModal(state, payload) {
+    closeDataElementSelectorModal(state) {
       return state.delete('dataElementSelectorModal');
     }
   }

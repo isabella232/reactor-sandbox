@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,25 +15,19 @@ class OtherSettings extends Component {
     };
   }
 
-  handleOrgIdChange = event => {
+  handleOrgIdChange = (event) => {
     const { otherSettings } = this.state;
 
     this.setState({
-      otherSettings: otherSettings.setIn(
-        ['company', 'orgId'],
-        event.target.value
-      )
+      otherSettings: otherSettings.setIn(['company', 'orgId'], event.target.value)
     });
   };
 
-  handleImsChange = event => {
+  handleImsChange = (event) => {
     const { otherSettings } = this.state;
 
     this.setState({
-      otherSettings: otherSettings.setIn(
-        ['tokens', 'imsAccess'],
-        event.target.value
-      )
+      otherSettings: otherSettings.setIn(['tokens', 'imsAccess'], event.target.value)
     });
   };
 
@@ -76,9 +72,7 @@ class OtherSettings extends Component {
             <div className="pure-control-group">
               <label htmlFor="orgId">Organization ID</label>
               <input
-                className={`pure-input-2-3 ${
-                  errors.orgId ? 'border-error' : ''
-                }`}
+                className={`pure-input-2-3 ${errors.orgId ? 'border-error' : ''}`}
                 id="orgId"
                 type="text"
                 value={otherSettings.getIn(['company', 'orgId']) || ''}
@@ -92,9 +86,7 @@ class OtherSettings extends Component {
             <div className="pure-control-group">
               <label htmlFor="imsAccess">IMS Token</label>
               <input
-                className={`pure-input-2-3 ${
-                  errors.imsAccess ? 'border-error' : ''
-                }`}
+                className={`pure-input-2-3 ${errors.imsAccess ? 'border-error' : ''}`}
                 id="imsAccess"
                 type="text"
                 value={otherSettings.getIn(['tokens', 'imsAccess']) || ''}
@@ -117,17 +109,12 @@ class OtherSettings extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   otherSettings: state.otherSettings
 });
 
 const mapDispatch = ({ otherSettings: { setOtherSettings } }) => ({
-  setOtherSettings: payload => setOtherSettings(payload)
+  setOtherSettings: (payload) => setOtherSettings(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(OtherSettings)
-);
+export default withRouter(connect(mapState, mapDispatch)(OtherSettings));

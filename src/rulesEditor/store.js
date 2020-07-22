@@ -7,21 +7,22 @@ import dataElements from './models/dataElements';
 import propertySettings from './models/propertySettings';
 import otherSettings from './models/otherSettings';
 import extensionConfigurations from './models/extensionConfigurations';
+// eslint-disable-next-line import/no-cycle
 import brain from './models/brain';
 import modals from './models/modals';
 
 const store = init({
   models: {
-    brain: brain,
-    rules: rules,
-    dataElements: dataElements,
-    extensionConfigurations: extensionConfigurations,
-    registry: registry,
-    currentIframe: currentIframe,
-    currentRule: currentRule,
-    propertySettings: propertySettings,
-    otherSettings: otherSettings,
-    modals: modals
+    brain,
+    rules,
+    dataElements,
+    extensionConfigurations,
+    registry,
+    currentIframe,
+    currentRule,
+    propertySettings,
+    otherSettings,
+    modals
   }
 });
 

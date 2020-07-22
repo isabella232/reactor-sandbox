@@ -1,7 +1,10 @@
 import { fromJS, Map } from 'immutable';
 import environment from './environment';
 import localStorage from './localStorage';
+// eslint-disable-next-line import/no-cycle
 import { dispatch } from '../store';
+
+const host = `${environment.server.host}:${environment.server.port}`;
 
 export default {
   state: Map(), // initial state
@@ -17,12 +20,8 @@ export default {
     }
   },
   effects: {
-    async initialize(payload, rootState) {
-      const response = await fetch(
-        `${environment.server.host}:${
-          environment.server.port
-        }/editor-registry.js`
-      );
+    async initialize() {
+      const response = await fetch(`${host}/editor-registry.js`);
 
       if (response.ok) {
         const data = await response.json();
@@ -39,12 +38,8 @@ export default {
       }
     },
 
-    async loadContainerData(payload, rootState) {
-      const response = await fetch(
-        `${environment.server.host}:${
-          environment.server.port
-        }/editor-container.js`
-      );
+    async loadContainerData() {
+      const response = await fetch(`${host}/editor-container.js`);
 
       if (response.ok) {
         const containerData = await response.json();
@@ -55,7 +50,7 @@ export default {
       }
     },
 
-    clearContainerData(payload, rootState) {
+    clearContainerData() {
       this.pushDataDown(
         Map({
           extensions: [],
@@ -68,14 +63,12 @@ export default {
       this.setContainerDataReseted('success');
     },
 
-    pushDataDown(payload, rootState) {
+    pushDataDown(payload) {
       dispatch.extensionConfigurations.setExtensionConfigurations(
         fromJS(payload.get('extensions'))
       );
       dispatch.rules.setRules(fromJS(payload.get('rules')));
-      dispatch.dataElements.setDataElements(
-        fromJS(payload.get('dataElements'))
-      );
+      dispatch.dataElements.setDataElements(fromJS(payload.get('dataElements')));
 
       dispatch.propertySettings.setPropertySettings(
         fromJS(
@@ -101,31 +94,22 @@ export default {
     async save() {
       const localStorageData = localStorage.get();
       const containerData = localStorageData
-        .setIn(
-          ['company', 'orgId'],
-          localStorageData.get('otherSettings').company.orgId
-        )
+        .setIn(['company', 'orgId'], localStorageData.get('otherSettings').company.orgId)
         .delete('otherSettings');
 
-      const response = await fetch(
-        `${environment.server.host}:${
-          environment.server.port
-        }/editor-container.js`,
-        {
-          method: 'POST',
-          cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(containerData)
-        }
-      );
+      const response = await fetch(`${host}/editor-container.js`, {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(containerData)
+      });
 
       if (response.ok) {
-        window.location = `${environment.server.host}:${
-          environment.server.port
-        }/libSandbox.html`;
+        window.location = `${host}/libSandbox.html`;
       } else {
+        // eslint-disable-next-line no-alert
         alert('Something went bad!');
       }
     }

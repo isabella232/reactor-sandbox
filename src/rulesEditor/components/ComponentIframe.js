@@ -40,7 +40,7 @@ class ComponentIframe extends Component {
       otherSettings,
       propertySettings,
       extensionConfiguration,
-      setCurrentIframe,
+      setCurrentIframe
     } = this.props;
 
     if (!url) {
@@ -51,13 +51,11 @@ class ComponentIframe extends Component {
       settings: settings && settings.toJS(),
       company: otherSettings.get('company').toJS(),
       propertySettings: propertySettings.toJS(),
-      tokens: otherSettings.get('tokens').toJS(),
+      tokens: otherSettings.get('tokens').toJS()
     };
 
     if (extensionConfiguration) {
-      extensionInitOptions.extensionSettings = extensionConfiguration
-        .get('settings')
-        .toJS();
+      extensionInitOptions.extensionSettings = extensionConfiguration.get('settings').toJS();
     }
 
     const iframe = document.createElement('iframe');
@@ -81,7 +79,7 @@ class ComponentIframe extends Component {
           openCodeEditorModal({
             code: options.code,
             onSave: resolve,
-            onClose: reject,
+            onClose: reject
           });
         }).catch(() => {});
       },
@@ -90,11 +88,11 @@ class ComponentIframe extends Component {
         return new Promise((resolve, reject) => {
           openDataElementSelectorModal({
             onSave: resolve,
-            onClose: reject,
+            onClose: reject
           });
         }).catch(() => '');
       },
-      markAsDirty() {},
+      markAsDirty() {}
     });
 
     this.dom.appendChild(iframe);
@@ -115,16 +113,15 @@ class ComponentIframe extends Component {
 
 const mapState = (state) => ({
   propertySettings: state.propertySettings,
-  otherSettings: state.otherSettings,
+  otherSettings: state.otherSettings
 });
 const mapDispatch = ({
   currentIframe: { setCurrentIframe },
-  modals: { openCodeEditorModal, openDataElementSelectorModal },
+  modals: { openCodeEditorModal, openDataElementSelectorModal }
 }) => ({
   setCurrentIframe: (payload) => setCurrentIframe(payload),
   openCodeEditorModal: (payload) => openCodeEditorModal(payload),
-  openDataElementSelectorModal: (payload) =>
-    openDataElementSelectorModal(payload),
+  openDataElementSelectorModal: (payload) => openDataElementSelectorModal(payload)
 });
 
 export default connect(mapState, mapDispatch)(ComponentIframe);

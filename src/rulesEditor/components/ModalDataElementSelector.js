@@ -19,9 +19,7 @@ class ModalDataElementSelectorEditor extends Component {
     if (nextProps.modals.size !== prevState.prevModalSize) {
       return {
         prevModalSize: nextProps.modals.size,
-        dataElementSelectorModal: nextProps.modals.getIn([
-          'dataElementSelectorModal'
-        ])
+        dataElementSelectorModal: nextProps.modals.getIn(['dataElementSelectorModal'])
       };
     }
 
@@ -49,24 +47,18 @@ class ModalDataElementSelectorEditor extends Component {
     closeDataElementSelectorModal();
   };
 
-  handleDataElementChange = event => {
+  handleDataElementChange = (event) => {
     const { dataElementSelectorModal } = this.state;
 
     this.setState({
-      dataElementSelectorModal: dataElementSelectorModal.set(
-        'dataElement',
-        event.target.value
-      )
+      dataElementSelectorModal: dataElementSelectorModal.set('dataElement', event.target.value)
     });
   };
 
   dataElementList() {
     const { dataElements } = this.props;
-    return (dataElements || List()).valueSeq().map(v => (
-      <option
-        value={v.get('name')}
-        key={`extensionConfiguration${v.get('name')}`}
-      >
+    return (dataElements || List()).valueSeq().map((v) => (
+      <option value={v.get('name')} key={`extensionConfiguration${v.get('name')}`}>
         {v.get('name')}
       </option>
     ));
@@ -96,19 +88,13 @@ class ModalDataElementSelectorEditor extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   modals: state.modals,
   dataElements: state.dataElements
 });
 
 const mapDispatch = ({ modals: { closeDataElementSelectorModal } }) => ({
-  closeDataElementSelectorModal: payload =>
-    closeDataElementSelectorModal(payload)
+  closeDataElementSelectorModal: (payload) => closeDataElementSelectorModal(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(ModalDataElementSelectorEditor)
-);
+export default withRouter(connect(mapState, mapDispatch)(ModalDataElementSelectorEditor));

@@ -19,7 +19,7 @@ const isNewRule = ({
 // component edit view, we need to load the currentRule from the state.
 // We need to check the location once for every page load of this view.
 let locationChecked = false;
-const checkLastLocation = location => {
+const checkLastLocation = (location) => {
   if (locationChecked) {
     return true;
   }
@@ -30,12 +30,10 @@ const checkLastLocation = location => {
     return false;
   }
 
-  return location.pathname.match(
-    /^\/rules\/.*\/(:?events|conditions|actions)\/.*$/
-  );
+  return location.pathname.match(/^\/rules\/.*\/(:?events|conditions|actions)\/.*$/);
 };
 
-const getCurrentRule = props => {
+const getCurrentRule = (props) => {
   const ruleId = props.match.params.rule_id;
   let rule;
 
@@ -97,7 +95,7 @@ class RuleEdit extends Component {
     return true;
   };
 
-  handleNameChange = event => {
+  handleNameChange = (event) => {
     const { rule } = this.state;
     const { setCurrentRule } = this.props;
     const newRule = rule.set('name', event.target.value);
@@ -140,9 +138,7 @@ class RuleEdit extends Component {
           <form className="pure-form">
             <fieldset>
               <legend>
-                <strong>
-                  {isNewRule(this.props) ? 'Create' : 'Edit'} Rule
-                </strong>
+                <strong>{isNewRule(this.props) ? 'Create' : 'Edit'} Rule</strong>
               </legend>
               <input
                 type="text"
@@ -186,11 +182,7 @@ class RuleEdit extends Component {
               Save
             </button>
             &nbsp;
-            <Link
-              onClick={this.handleCancelClick}
-              to="/rules"
-              className="pure-button"
-            >
+            <Link onClick={this.handleCancelClick} to="/rules" className="pure-button">
               Cancel
             </Link>
           </div>
@@ -200,25 +192,17 @@ class RuleEdit extends Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     currentRule: state.currentRule,
     rules: state.rules
   };
 };
 
-const mapDispatch = ({
-  rules: { saveRule, addRule },
-  currentRule: { setCurrentRule }
-}) => ({
-  addRule: payload => addRule(payload),
-  saveRule: payload => saveRule(payload),
-  setCurrentRule: payload => setCurrentRule(payload)
+const mapDispatch = ({ rules: { saveRule, addRule }, currentRule: { setCurrentRule } }) => ({
+  addRule: (payload) => addRule(payload),
+  saveRule: (payload) => saveRule(payload),
+  setCurrentRule: (payload) => setCurrentRule(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(withLastLocation(RuleEdit))
-);
+export default withRouter(connect(mapState, mapDispatch)(withLastLocation(RuleEdit)));

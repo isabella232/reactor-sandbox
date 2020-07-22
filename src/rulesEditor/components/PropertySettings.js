@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+
 import React, { Component } from 'react';
 import { List } from 'immutable';
 import { withRouter } from 'react-router-dom';
@@ -11,56 +13,59 @@ class PropertySettings extends Component {
     this.state = {
       propertySettings: props.propertySettings.set(
         'domains',
-        props.propertySettings
-          .get('domains')
-          .toJS()
-          .join(', ')
+        props.propertySettings.get('domains').toJS().join(', ')
       ),
       errors: {}
     };
   }
 
   handleDomainsChange(event) {
+    const { propertySettings } = this.state;
+
     this.setState({
-      propertySettings: this.state.propertySettings.set(
-        'domains',
-        event.target.value
-      )
+      propertySettings: propertySettings.set('domains', event.target.value)
     });
   }
 
   isValid() {
     const errors = {};
+    const { propertySettings } = this.state;
 
-    if (!this.state.propertySettings.get('domains')) {
+    if (!propertySettings.get('domains')) {
       errors.domains = true;
     }
 
-    this.setState({ errors: errors });
+    this.setState({ errors });
     return Object.keys(errors).length === 0;
   }
 
-  handleSave(event) {
+  handleSave() {
     if (!this.isValid()) {
       return false;
     }
 
-    this.props.setPropertySettings(
-      this.state.propertySettings.set(
+    const { propertySettings } = this.state;
+    const { setPropertySettings, history } = this.props;
+
+    setPropertySettings(
+      propertySettings.set(
         'domains',
         List(
-          this.state.propertySettings
+          propertySettings
             .get('domains')
             .split(',')
-            .map(s => s.trim())
+            .map((s) => s.trim())
         )
       )
     );
 
-    this.props.history.push('/');
+    history.push('/');
+
+    return true;
   }
 
   render() {
+    const { errors, propertySettings } = this.state;
     return (
       <div className="property-settings-container">
         <form className="pure-form pure-form-aligned">
@@ -69,20 +74,17 @@ class PropertySettings extends Component {
             <div className="pure-control-group">
               <label htmlFor="domainsList">Domains List</label>
               <input
-                className={`pure-input-1-3 ${
-                  this.state.errors.domains ? 'border-error' : ''
-                }`}
+                className={`pure-input-1-3 ${errors.domains ? 'border-error' : ''}`}
                 id="domainsList"
                 type="text"
-                value={this.state.propertySettings.get('domains') || ''}
+                value={propertySettings.get('domains') || ''}
                 onChange={this.handleDomainsChange.bind(this)}
               />
-              <span className="pure-form-message-inline">
-                Comma separated values are accepted.
-              </span>
+              <span className="pure-form-message-inline">Comma separated values are accepted.</span>
             </div>
             <div className="pure-controls">
               <button
+                type="button"
                 className="pure-button pure-button-primary"
                 onClick={this.handleSave.bind(this)}
               >
@@ -96,17 +98,12 @@ class PropertySettings extends Component {
   }
 }
 
-const mapState = state => ({
+const mapState = (state) => ({
   propertySettings: state.propertySettings
 });
 
 const mapDispatch = ({ propertySettings: { setPropertySettings } }) => ({
-  setPropertySettings: payload => setPropertySettings(payload)
+  setPropertySettings: (payload) => setPropertySettings(payload)
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(PropertySettings)
-);
+export default withRouter(connect(mapState, mapDispatch)(PropertySettings));

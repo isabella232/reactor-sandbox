@@ -3,21 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import OtherSettings from './OtherSettings';
 
-const Main = ({
-  brain,
-  orgId,
-  imsAccess,
-  loadContainerData,
-  clearContainerData
-}) => (
+const Main = ({ brain, orgId, imsAccess, loadContainerData, clearContainerData }) => (
   <div>
     <OtherSettings key={`${orgId}${imsAccess}`} />
     <div className="main-container">
       <p>The data used inside this editor is loaded from `localStorage`.</p>
       <p>
         If you want to overwrite the current data with the one stored inside the{' '}
-        <strong>`.sandbox/container.js`</strong> file click on the `Import data`
-        button.
+        <strong>`.sandbox/container.js`</strong> file click on the `Import data` button.
         <button
           type="button"
           className="pure-button pure-button-primary"
@@ -28,8 +21,7 @@ const Main = ({
         {brain.get('containerDataLoaded') != null ? (
           <span className={`status-${brain.get('containerDataLoaded')}`}>
             <br />
-            Last import status:{' '}
-            <strong>{brain.get('containerDataLoaded')}</strong>.
+            Last import status: <strong>{brain.get('containerDataLoaded')}</strong>.
           </span>
         ) : null}
         {}
@@ -46,8 +38,7 @@ const Main = ({
         {brain.get('containerDataReseted') != null ? (
           <span className={`status-${brain.get('containerDataReseted')}`}>
             <br />
-            Last reset status:{' '}
-            <strong>{brain.get('containerDataReseted')}</strong>.
+            Last reset status: <strong>{brain.get('containerDataReseted')}</strong>.
           </span>
         ) : null}
       </p>
@@ -55,7 +46,7 @@ const Main = ({
   </div>
 );
 
-const mapState = state => ({
+const mapState = (state) => ({
   brain: state.brain,
   orgId: state.otherSettings.getIn(['company', 'orgId']),
   imsAccess: state.otherSettings.getIn(['tokens', 'imsAccess'])
@@ -66,9 +57,4 @@ const mapDispatch = ({ brain: { loadContainerData, clearContainerData } }) => ({
   clearContainerData: () => clearContainerData()
 });
 
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(Main)
-);
+export default withRouter(connect(mapState, mapDispatch)(Main));
