@@ -32,7 +32,7 @@
     "build": "rm -rf dist && npm run build:viewsEditor && npm run build:rulesEditor",
     "start:viewsEditor": "watch \"cp -v -r ./src/client/public/ dist\" ./src/client/public & parcel watch src/client/src/viewSandbox.js --out-dir dist --out-file viewSandbox.js --no-cache",
     "start:rulesEditor": "npm run reactor-bridge-update && react-scripts start",
-    "start": "rm -rf dist && npm run start:viewsEditor && npm run start:rulesEditor"
+    "start": "rm -rf dist && npm run start:viewsEditor & npm run start:rulesEditor"
   },
   "dependencies": {
     "@adobe/reactor-bridge": "^11.0.0",
